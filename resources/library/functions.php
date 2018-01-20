@@ -42,8 +42,8 @@ function fetchCollection($conn, $title) {
                       if ( $row["file_pdf"] != "" ) {
                         echo '<a href="'. $row['file_pdf'] .'" target="_blank">Lataa PDF</a>';
                       }
-                      if ( $row["sib_file"] != "" ) {
-                        echo '<a href="'. $row['sib_file'] .'" target="_blank">Lataa Avid Scorch</a>';
+                      if ( $row["file_sib"] != "" ) {
+                        echo '<a href="'. $row['file_sib'] .'" target="_blank">Lataa Avid Scorch</a>';
                       }
                       if ( $row["file_mscz"] != "" ) {
                         echo '<a href="'. $row['file_mscz'] .'" target="_blank">Lataa MuseScore</a>';
