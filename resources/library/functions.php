@@ -1,4 +1,4 @@
-<?php
+file_msczfile_sib<?php
 
 
 function openConnection($config) {
@@ -39,14 +39,14 @@ function fetchCollection($conn, $title) {
                   </div>
                   <div id="collapse-'. $n .'" class="panel-collapse collapse">
                     <div class="panel-body text-left">';
-                      if ( $row["pdf_file"] != "" ) {
-                        echo '<a href="'. $row['pdf_file'] .'" target="_blank">Lataa PDF</a>';
+                      if ( $row["file_pdf"] != "" ) {
+                        echo '<a href="'. $row['file_pdf'] .'" target="_blank">Lataa PDF</a>';
                       }
                       if ( $row["sib_file"] != "" ) {
                         echo '<a href="'. $row['sib_file'] .'" target="_blank">Lataa Avid Scorch</a>';
                       }
-                      if ( $row["mscz_file"] != "" ) {
-                        echo '<a href="'. $row['mscz_file'] .'" target="_blank">Lataa MuseScore</a>';
+                      if ( $row["file_mscz"] != "" ) {
+                        echo '<a href="'. $row['file_mscz'] .'" target="_blank">Lataa MuseScore</a>';
                       }
                       echo
                     '</div>
