@@ -1,7 +1,5 @@
 $(document).ready(function() {
 
-    submitSearch();
-
     $('#search-btn').click(function() {
         submitSearch();
         $('#search-text').val('');

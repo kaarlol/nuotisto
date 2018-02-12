@@ -2,7 +2,7 @@
 
   ini_set('display_errors', 'On');
   error_reporting(E_ALL | E_STRICT);
-  
+
   // load config file
   require_once("../resources/config.php");
 
@@ -26,8 +26,8 @@
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#">Nuotit</a></li>
-          <li><a href="#">Keikat</a></li>
+          <li class="active"><a href="index.php">Nuotit</a></li>
+          <li><a href="concerts.php">Keikat</a></li>
           <li><a href="#">Listat</a></li>
         </ul>
       </div>
@@ -62,6 +62,9 @@
             <div class="col-lg-3 col-sm-1"></div>
         </div>
     </div>
+    <script>
+      submitSearch();
+    </script>
 
 <?php
   // load footer
