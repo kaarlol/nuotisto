@@ -10,7 +10,7 @@ $title = $_REQUEST['title'];
 
 $conn = openConnection($config);
 
-fetchCollection($conn, $title);
+fetchSong($conn, $title);
 
 closeConnection($conn);
 

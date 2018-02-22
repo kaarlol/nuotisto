@@ -8,17 +8,12 @@
     you'll only need to update it here.
 */
 
-$url = getenv('JAWSDB_URL');
-
-//$url = 'mysql://ywgkma3pud2pg3qr:yqak86ne4luvia81@cig4l2op6r0fxymw.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/qtulhtq93pxmb744';
-$dbparts = parse_url($url);
-
 $config = array(
     "db" => array(
-          "dbname" => ltrim($dbparts['path'],'/'),
-          "username" => $dbparts['user'],
-          "password" => $dbparts['pass'],
-          "host" => $dbparts['host']
+          "dbname" => "kylfi",
+          "username" => "kylfi",
+          "password" => "fDnaPeAk",
+          "host" => "mysql10.nebula.fi"
     ),
     "urls" => array(
         "baseUrl" => "localhost:8888"

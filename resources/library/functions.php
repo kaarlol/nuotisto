@@ -18,9 +18,9 @@ function openConnection($config)
     return $conn;
 }
 
-function fetchCollection($conn, $title)
+function fetchSong($conn, $name)
 {
-    $sql = "SELECT * FROM collection WHERE title LIKE '%" . $title .  "%' OR composer_last_name LIKE '%" . $title .  "%' ORDER BY title";
+    $sql = "SELECT * FROM kml_song WHERE name LIKE '%" . $name .  "%' ORDER BY name";
     $result = $conn->query($sql);
 
 
@@ -33,24 +33,15 @@ function fetchCollection($conn, $title)
                     <div class="panel-heading text-left">
                       <h4 class="panel-title">
 
-                        ' . $row["title"] . ' - '. $row["composer_first_name"] .' '. $row["composer_last_name"] .'
+                        ' . $row["name"]  .'
 
                         </h4>
                     </div>
                   </a>
                   <div id="collapse-'. $row["id"] .'" class="panel-collapse collapse">
-                    <div class="panel-body text-left">';
-                      if ($row["file_pdf"] != "") {
-                          echo '<a href="'. $row["file_pdf"] .'" target="_blank">Lataa PDF</a>';
-                      }
-                      if ($row["file_sib"] != "") {
-                          echo '<br><a href="'. $row["file_sib"] .'" target="_blank">Lataa Avid Scorch</a>';
-                      }
-                      if ($row["file_mscz"] != "") {
-                          echo '<br><a href="'. $row["file_mscz"] .'" target="_blank">Lataa MuseScore</a>';
-                      }
-                      echo
-                    '</div>
+                    <div class="panel-body text-left">
+                      Test
+                    </div>
                   </div>
                 </div>
                 ';
