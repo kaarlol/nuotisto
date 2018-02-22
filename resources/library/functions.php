@@ -18,8 +18,8 @@ function openConnection($config)
     return $conn;
 }
 
-function fetchSong($conn, $name)
-{
+function fetchSong($conn, $name) {
+    $json = array();
     $sql = "SELECT * FROM kml_song WHERE name LIKE '%" . $name .  "%' ORDER BY name";
     $result = $conn->query($sql);
 
@@ -28,28 +28,18 @@ function fetchSong($conn, $name)
         // output data of each row
         $n = 1;
         while ($row = $result->fetch_assoc()) {
-            echo '<div class="panel panel-default">
-                  <a data-toggle="collapse" data-parent="#accordion" href="#collapse-'. $row["id"] .'">
-                    <div class="panel-heading text-left">
-                      <h4 class="panel-title">
-
-                        ' . $row["name"]  .'
-
-                        </h4>
-                    </div>
-                  </a>
-                  <div id="collapse-'. $row["id"] .'" class="panel-collapse collapse">
-                    <div class="panel-body text-left">
-                      Test
-                    </div>
-                  </div>
-                </div>
-                ';
+            $bus = array(
+              'id' => $row["id"],
+              'name' => $row["name"]
+            );
+            array_push($json, $bus);
             $n++;
         }
     } else {
         echo '0 results';
     }
+    $jsonstring = json_encode($json);
+    echo $jsonstring;
 }
 
 function fetchConcerts($conn)
