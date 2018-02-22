@@ -31,6 +31,7 @@ function submitSearch() {
 }
 
 function populateSongs(songData) {
+  $('#accordion').empty();
   for (i = 0; i < songData.length; i++) {
     $('#accordion').prepend('\
     <div class="panel panel-default">\
