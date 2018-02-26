@@ -1,0 +1,41 @@
+{
+    "arr_id": "24",
+    "name": "Hey brother",
+    "songwriter": [{
+        "person_id": "65",
+        "name": "Salem Al Fakir",
+
+        "author_order": "1"
+    }, {
+        "person_id": "66",
+        "name": "Tim Bergling",
+
+        "author_order": "2"
+    }, {
+        "person_id": "67",
+        "name": "Veronica Maggio",
+
+        "author_order": "3"
+    }, {
+        "person_id": "68",
+        "name": "Vincent Pontare",
+
+        "author_order": "4"
+    }, {
+        "person_id": "69",
+        "name": "Arash Pournouri",
+
+        "author_order": "5"
+    }],
+    "arranger": {
+        "person_id": "75",
+        "name": "Tommi Paavilainen",
+        "contribution_type": "arranger",
+        "author_order": "1"
+    },
+    "file": [{
+        "file_id": "30",
+        "file_extension": "pdf",
+        "version": "2.1",
+        "description": null
+    }]
