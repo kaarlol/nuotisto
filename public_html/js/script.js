@@ -31,42 +31,6 @@ function submitSearch() {
     });
 }
 
-function parseSongData(data) {
-  songData = [];
-
-  for (var i = 0; i < data.length; i++) {
-    songData.push( {
-      "arr_id": data[i][0].arr_id,
-      "name": data[i][0].name,
-      "contributors": [],
-      "files": []
-    });
-    for (var x = 0; x < data[i].length; x++) {
-      if (data[i][x].contribution_type) {
-
-        if (data[i][x].contribution_type == "composer") {
-          songData[i].contributors.push( {
-            "contribution_type": "composer",
-            "name": data[i][x].name,
-            "person_id": data[i][x].person_id
-          })
-        }
-
-        if (data[i][x].contribution_type == "songwriter") {
-          songData[i].contributors.push( {
-            "contribution_type": "songwriter",
-            "name": data[i][x].name,
-            "person_id": data[i][x].person_id
-          })
-        }
-
-
-
-      }
-    }
-  }
-}
-
 function populateSongs(songData) {
   $('#accordion').empty();
   for (i = 0; i < songData.length; i++) {
