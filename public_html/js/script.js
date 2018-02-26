@@ -49,22 +49,51 @@ function populateSongs(songData) {
       </div>\
     </div>\
     ');
+	var firstComposer 	= true, 
+		firstSongwriter = true,
+		firstLyricist 	= true,
+		firstArranger 	= true;
+	
     for (var x = 0; x < songData[i].length; x++) {
       if (songData[i][x].contribution_type == "composer") {
-        $('#collapse-'+ songData[i][0].arr_id +' p.composer').append(' ' + songData[i][x].name).show();
+		if(firstComposer) {
+          $('#collapse-'+ songData[i][0].arr_id +' p.composer').append(' ' + songData[i][x].name).show();
+		  firstComposer = false;	
+		} else {
+          $('#collapse-'+ songData[i][0].arr_id +' p.composer').append(', ' + songData[i][x].name).show();
+    	} 		
       }
       if (songData[i][x].contribution_type == "songwriter") {
-        $('#collapse-'+ songData[i][0].arr_id +' p.songwriter').append(' ' + songData[i][x].name).show();
+		if(firstSongwriter) {
+          $('#collapse-'+ songData[i][0].arr_id +' p.songwriter').append(' ' + songData[i][x].name).show();
+		  firstSongwriter = false;	
+		} else {
+          $('#collapse-'+ songData[i][0].arr_id +' p.songwriter').append(', ' + songData[i][x].name).show();
+    	} 		
       }
       if (songData[i][x].contribution_type == "lyricist") {
-        $('#collapse-'+ songData[i][0].arr_id +' p.lyricist').append(' ' + songData[i][x].name).show();
-      }
+		if(firstLyricist) {
+		  $('#collapse-'+ songData[i][0].arr_id +' p.lyricist').append(' ' + songData[i][x].name).show();
+		  firstLyricist = false;
+		} else {
+		  $('#collapse-'+ songData[i][0].arr_id +' p.lyricist').append(', ' + songData[i][x].name).show();
+		}
+	  }
       if (songData[i][x].contribution_type == "arranger") {
-        $('#collapse-'+ songData[i][0].arr_id +' p.arranger').append(' ' + songData[i][x].name).show();
+		if(firstArranger) {
+		  $('#collapse-'+ songData[i][0].arr_id +' p.arranger').append(' ' + songData[i][x].name).show();
+		  firstArranger = false;
+		} else {
+		  $('#collapse-'+ songData[i][0].arr_id +' p.arranger').append(', ' + songData[i][x].name).show();
+		}
       }
       if (songData[i][x].file_extension == "pdf") {
-        $('#collapse-'+ songData[i][0].arr_id +' p.pdf').append('<a href="/download.php?id=' + songData[i][x].file_id + '">Lataa PDF (' + songData[i][x].description + ')</a>').show();
-      }
+		if(songData[i][x].description == null && songData[i][x].version != null) {
+          $('#collapse-'+ songData[i][0].arr_id +' p.pdf').append('<a href="/download.php?id=' + songData[i][x].file_id + '">Lataa PDF (ver. ' + songData[i][x].version + ')</a>').show();		  
+		} else {
+          $('#collapse-'+ songData[i][0].arr_id +' p.pdf').append('<a href="/download.php?id=' + songData[i][x].file_id + '">Lataa PDF (' + songData[i][x].description + ')</a>').show();		  
+		}
+	  }
       if (songData[i][x].file_extension == "sib") {
         $('#collapse-'+ songData[i][0].arr_id +' p.sib').append('<a href="/download.php?id=' + songData[i][x].file_id + '">Lataa Scorch</a>').show();
       }
