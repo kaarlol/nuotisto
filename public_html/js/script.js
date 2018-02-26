@@ -6,12 +6,7 @@ $(document).ready(function() {
     });
 
     $('#search-text').on('keyup', function(e) {
-        if (e.which === 13) {
-            submitSearch();
-            $('#search-text').val('');
-        } else {
-            submitSearch();
-        }
+        submitSearch();
     });
 
 });
