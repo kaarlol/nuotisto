@@ -22,7 +22,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">Nuotisto</a>
+        <a class="navbar-brand" href="#"><img src="http://kyl.fi/wordpress/wp-content/themes/kyl/img/kyl-header-logo.png" class="img-responsive img-navbar-brand" alt="KYL logo"></a>
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">

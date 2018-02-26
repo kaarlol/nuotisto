@@ -1,0 +1,44 @@
+body {
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+}
+
+.navbar {
+    border-top: 5px solid #f99a32;
+    border-radius: 0px;
+    color: #fff;
+    min-height: 80px;
+}
+
+.navbar-nav>li>a {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.navbar-inverse {
+    background: rgba(0,0,0,0.9);
+}
+
+.img-navbar-brand {
+    height: 40px;
+}
+
+.navbar-toggle {
+  margin-top: 15px;
+}
+
+@media (min-width: 768px) {
+  .img-navbar-brand {
+      height: 50px;
+  }
+}
+
+h4.panel-title {
+  color: #000;
+  font-weight: 400;
+  font-size: 1.2em;
+}
+
+.panel-body p {
+  font-size: 1.2em;
+}
