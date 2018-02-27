@@ -61,8 +61,29 @@ function populateSongs(songData) {
 	authors = songData[i].filter(arrangement => (arrangement.contribution_type === "songwriter"));
 	if (authors.length > 0) { 
 		authors.sort(function(a,b) {return (a.author_order - b.author_order);});
+
 		var a = "";
-		authors.forEach(function(obj) {return a += "<a href=\#>"+obj.name + "</a>, ";});
+		authors.forEach(function(obj) {
+			
+			// deal with dates -- invalid dates e.g. '0000-00-00' or '2018-14-14' also create NaN values
+			if (obj.birth_date != null) {
+				birthDate = new Date(obj.birth_date);
+			} else birthDate = NaN;
+			if (obj.death_date != null) {
+				deathDate = new Date(obj.death_date);
+			} else deathDate = NaN;
+
+			if(isNaN(birthDate) && isNaN(deathDate)) {
+				return a += "<a href=\#>"+obj.name + "</a>, ";
+			} else if (isNaN(birthDate) && !isNaN(deathDate)) {
+				return a += "<a href=\#>"+obj.name + "</a> (\?&ndash;" + deathDate.getFullYear() + "), ";
+			} else if (!isNaN(birthDate) && isNaN(deathDate)) {
+				return a += "<a href=\#>"+obj.name + "</a> (" + birthDate.getFullYear() + "&ndash;), ";
+			} else {
+				return a += "<a href=\#>"+obj.name + "</a> (" + birthDate.getFullYear() + "&ndash;" + deathDate.getFullYear() + "), ";
+			}
+		});
+		
 		/// remove the ", " at the end of the string AND remove all family name markers '¤' from the shown strings (hence '/<string>/g' format
 		a = a.substring(0,a.length - 2).replace(/¤/g,'');
 		$('#collapse-'+ songData[i][0].arr_id +' p.songwriter').append(a).show();
@@ -73,15 +94,33 @@ function populateSongs(songData) {
 		/// remove the last  m-dash, and add the closing parenthesis 
 		b = b.substring(0,b.length - 7);
 		$('#panelHeading-'+ songData[i][0].arr_id +' h5.panel-title').append(b).show();
-		/// $('a.collapsed > h5.panel-title').show();
-		/// $(".accordion-toggle.collapsed").css({"display" : "none"});
 	}
 
 	authors = songData[i].filter(arrangement => (arrangement.contribution_type === "composer"));
 	if (authors.length > 0) { 
 		authors.sort(function(a,b) {return (a.author_order - b.author_order);});
+
 		var a = "";
-		authors.forEach(function(obj) {return a += "<a href=\#>"+obj.name + "</a>, ";});
+		authors.forEach(function(obj) {
+			
+			// deal with dates -- invalid dates e.g. '0000-00-00' or '2018-14-14' also create NaN values
+			if (obj.birth_date != null) {
+				birthDate = new Date(obj.birth_date);
+			} else birthDate = NaN;
+			if (obj.death_date != null) {
+				deathDate = new Date(obj.death_date);
+			} else deathDate = NaN;
+
+			if(isNaN(birthDate) && isNaN(deathDate)) {
+				return a += "<a href=\#>"+obj.name + "</a>, ";
+			} else if (isNaN(birthDate) && !isNaN(deathDate)) {
+				return a += "<a href=\#>"+obj.name + "</a> (\?&ndash;" + deathDate.getFullYear() + "), ";
+			} else if (!isNaN(birthDate) && isNaN(deathDate)) {
+				return a += "<a href=\#>"+obj.name + "</a> (" + birthDate.getFullYear() + "&ndash;), ";
+			} else {
+				return a += "<a href=\#>"+obj.name + "</a> (" + birthDate.getFullYear() + "&ndash;" + deathDate.getFullYear() + "), ";
+			}
+		});
 		a = a.substring(0,a.length - 2).replace(/¤/g,'');
 		$('#collapse-'+ songData[i][0].arr_id +' p.composer').append(a).show();
 
@@ -97,7 +136,26 @@ function populateSongs(songData) {
 	if (authors.length > 0) { 
 		authors.sort(function(a,b) {return (a.author_order - b.author_order);});
 		var a = "";
-		authors.forEach(function(obj) {return a += "<a href=\#>"+obj.name + "</a>, ";});
+		authors.forEach(function(obj) {
+			
+			// deal with dates -- invalid dates e.g. '0000-00-00' or '2018-14-14' also create NaN values
+			if (obj.birth_date != null) {
+				birthDate = new Date(obj.birth_date);
+			} else birthDate = NaN;
+			if (obj.death_date != null) {
+				deathDate = new Date(obj.death_date);
+			} else deathDate = NaN;
+
+			if(isNaN(birthDate) && isNaN(deathDate)) {
+				return a += "<a href=\#>"+obj.name + "</a>, ";
+			} else if (isNaN(birthDate) && !isNaN(deathDate)) {
+				return a += "<a href=\#>"+obj.name + "</a> (\?&ndash;" + deathDate.getFullYear() + "), ";
+			} else if (!isNaN(birthDate) && isNaN(deathDate)) {
+				return a += "<a href=\#>"+obj.name + "</a> (" + birthDate.getFullYear() + "&ndash;), ";
+			} else {
+				return a += "<a href=\#>"+obj.name + "</a> (" + birthDate.getFullYear() + "&ndash;" + deathDate.getFullYear() + "), ";
+			}
+		});
 		a = a.substring(0,a.length - 2).replace(/¤/g,'');
 		$('#collapse-'+ songData[i][0].arr_id +' p.lyricist').append(a).show();
 	}
@@ -106,7 +164,26 @@ function populateSongs(songData) {
 	if (authors.length > 0) { 
 		authors.sort(function(a,b) {return (a.author_order - b.author_order);});
 		var a = "";
-		authors.forEach(function(obj) {return a += "<a href=\#>"+obj.name + "</a>, ";});
+		authors.forEach(function(obj) {
+			
+			// deal with dates -- invalid dates e.g. '0000-00-00' or '2018-14-14' also create NaN values
+			if (obj.birth_date != null) {
+				birthDate = new Date(obj.birth_date);
+			} else birthDate = NaN;
+			if (obj.death_date != null) {
+				deathDate = new Date(obj.death_date);
+			} else deathDate = NaN;
+
+			if(isNaN(birthDate) && isNaN(deathDate)) {
+				return a += "<a href=\#>"+obj.name + "</a>, ";
+			} else if (isNaN(birthDate) && !isNaN(deathDate)) {
+				return a += "<a href=\#>"+obj.name + "</a> (\?&ndash;" + deathDate.getFullYear() + "), ";
+			} else if (!isNaN(birthDate) && isNaN(deathDate)) {
+				return a += "<a href=\#>"+obj.name + "</a> (" + birthDate.getFullYear() + "&ndash;), ";
+			} else {
+				return a += "<a href=\#>"+obj.name + "</a> (" + birthDate.getFullYear() + "&ndash;" + deathDate.getFullYear() + "), ";
+			}
+		});
 		a = a.substring(0,a.length - 2).replace(/¤/g,'');
 		$('#collapse-'+ songData[i][0].arr_id +' p.arranger').append(a).show();
 	}
