@@ -10,3 +10,9 @@ RewriteCond %{THE_REQUEST} /public_html/([^\s?]*) [NC]
 RewriteRule ^ %1 [L,NE,R=302]
 
 RewriteRule ^((?!public_html/).*)$ public_html/$1 [L,NC]
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(php)$">
+    Header set Access-Control-Allow-Origin "*"
+  </FilesMatch>
+</IfModule>
