@@ -42,3 +42,18 @@ h4.panel-title {
 .panel-body p {
   font-size: 1.2em;
 }
+
+div.panel-body p .year_range {
+  font-size: 66%;
+  color: darkgray;
+}
+
+div.panel-body a .file_description {
+  font-size: 75%;
+  color: darkgray;
+  margin-left: 0.5em;
+}
+
+div.panel-body p {
+  line-height: 140%;
+}

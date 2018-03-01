@@ -51,6 +51,7 @@ function populateSongs(songData) {
           <p class="pdf" style="display: none;"></p>\
           <p class="sib" style="display: none;"></p>\
           <p class="mscz" style="display: none;"></p>\
+          <p class="mp3" style="display: none;"></p>\
         </div>\
       </div>\
     </div>\
@@ -76,11 +77,11 @@ function populateSongs(songData) {
 			if(isNaN(birthDate) && isNaN(deathDate)) {
 				return a += "<a href=\#>"+obj.name + "</a>, ";
 			} else if (isNaN(birthDate) && !isNaN(deathDate)) {
-				return a += "<a href=\#>"+obj.name + "</a> (\?&ndash;" + deathDate.getFullYear() + "), ";
+				return a += "<a href=\#>"+obj.name + "</a> <span class=\"year_range\">(\?&ndash;" + deathDate.getFullYear() + ")</span>, ";
 			} else if (!isNaN(birthDate) && isNaN(deathDate)) {
-				return a += "<a href=\#>"+obj.name + "</a> (" + birthDate.getFullYear() + "&ndash;), ";
+				return a += "<a href=\#>"+obj.name + "</a> <span class=\"year_range\">(" + birthDate.getFullYear() + "&ndash;)</span>, ";
 			} else {
-				return a += "<a href=\#>"+obj.name + "</a> (" + birthDate.getFullYear() + "&ndash;" + deathDate.getFullYear() + "), ";
+				return a += "<a href=\#>"+obj.name + "</a> <span class=\"year_range\">(" + birthDate.getFullYear() + "&ndash;" + deathDate.getFullYear() + ")</span>, ";
 			}
 		});
 		
@@ -114,11 +115,11 @@ function populateSongs(songData) {
 			if(isNaN(birthDate) && isNaN(deathDate)) {
 				return a += "<a href=\#>"+obj.name + "</a>, ";
 			} else if (isNaN(birthDate) && !isNaN(deathDate)) {
-				return a += "<a href=\#>"+obj.name + "</a> (\?&ndash;" + deathDate.getFullYear() + "), ";
+				return a += "<a href=\#>"+obj.name + "</a> <span class=\"year_range\">(\?&ndash;" + deathDate.getFullYear() + ")</span>, ";
 			} else if (!isNaN(birthDate) && isNaN(deathDate)) {
-				return a += "<a href=\#>"+obj.name + "</a> (" + birthDate.getFullYear() + "&ndash;), ";
+				return a += "<a href=\#>"+obj.name + "</a> <span class=\"year_range\">(" + birthDate.getFullYear() + "&ndash;)</span>, ";
 			} else {
-				return a += "<a href=\#>"+obj.name + "</a> (" + birthDate.getFullYear() + "&ndash;" + deathDate.getFullYear() + "), ";
+				return a += "<a href=\#>"+obj.name + "</a> <span class=\"year_range\">(" + birthDate.getFullYear() + "&ndash;" + deathDate.getFullYear() + ")</span>, ";
 			}
 		});
 		a = a.substring(0,a.length - 2).replace(/¤/g,'');
@@ -149,11 +150,11 @@ function populateSongs(songData) {
 			if(isNaN(birthDate) && isNaN(deathDate)) {
 				return a += "<a href=\#>"+obj.name + "</a>, ";
 			} else if (isNaN(birthDate) && !isNaN(deathDate)) {
-				return a += "<a href=\#>"+obj.name + "</a> (\?&ndash;" + deathDate.getFullYear() + "), ";
+				return a += "<a href=\#>"+obj.name + "</a> <span class=\"year_range\">(\?&ndash;" + deathDate.getFullYear() + ")</span>, ";
 			} else if (!isNaN(birthDate) && isNaN(deathDate)) {
-				return a += "<a href=\#>"+obj.name + "</a> (" + birthDate.getFullYear() + "&ndash;), ";
+				return a += "<a href=\#>"+obj.name + "</a> <span class=\"year_range\">(" + birthDate.getFullYear() + "&ndash;)</span>, ";
 			} else {
-				return a += "<a href=\#>"+obj.name + "</a> (" + birthDate.getFullYear() + "&ndash;" + deathDate.getFullYear() + "), ";
+				return a += "<a href=\#>"+obj.name + "</a> <span class=\"year_range\">(" + birthDate.getFullYear() + "&ndash;" + deathDate.getFullYear() + ")</span>, ";
 			}
 		});
 		a = a.substring(0,a.length - 2).replace(/¤/g,'');
@@ -177,11 +178,11 @@ function populateSongs(songData) {
 			if(isNaN(birthDate) && isNaN(deathDate)) {
 				return a += "<a href=\#>"+obj.name + "</a>, ";
 			} else if (isNaN(birthDate) && !isNaN(deathDate)) {
-				return a += "<a href=\#>"+obj.name + "</a> (\?&ndash;" + deathDate.getFullYear() + "), ";
+				return a += "<a href=\#>"+obj.name + "</a> <span class=\"year_range\">(\?&ndash;" + deathDate.getFullYear() + ")</span>, ";
 			} else if (!isNaN(birthDate) && isNaN(deathDate)) {
-				return a += "<a href=\#>"+obj.name + "</a> (" + birthDate.getFullYear() + "&ndash;), ";
+				return a += "<a href=\#>"+obj.name + "</a> <span class=\"year_range\">(" + birthDate.getFullYear() + "&ndash;)</span>, ";
 			} else {
-				return a += "<a href=\#>"+obj.name + "</a> (" + birthDate.getFullYear() + "&ndash;" + deathDate.getFullYear() + "), ";
+				return a += "<a href=\#>"+obj.name + "</a> <span class=\"year_range\">(" + birthDate.getFullYear() + "&ndash;" + deathDate.getFullYear() + ")</span>, ";
 			}
 		});
 		a = a.substring(0,a.length - 2).replace(/¤/g,'');
@@ -194,11 +195,11 @@ function populateSongs(songData) {
 	if (file.length > 0) { 
 		file.forEach(function(obj) {
 			if(obj.description == null && obj.version != null) {
-				$('#collapse-'+ songData[i][0].arr_id +' p.pdf').append('<a href="/download.php?id=' + obj.file_id + '">Lataa PDF (ver. ' + obj.version + ')</a>').show();
+				$('#collapse-'+ songData[i][0].arr_id +' p.pdf').append('<a href="download.php?id=' + obj.file_id + '"><span class="glyphicon glyphicon-download-alt"></span> pdf <span class=\"file_description\">ver. ' + obj.version + '</span></a><br />').show();
 			} else if (obj.description != null) {
-				$('#collapse-'+ songData[i][0].arr_id +' p.pdf').append('<a href="/download.php?id=' + obj.file_id + '">Lataa PDF (' + obj.description + ')</a>').show();		  
+				$('#collapse-'+ songData[i][0].arr_id +' p.pdf').append('<a href="download.php?id=' + obj.file_id + '"><span class="glyphicon glyphicon-download-alt"></span> pdf <span class=\"file_description\">' + obj.description + '</span></a><br />').show();		  
 			} else {
-				$('#collapse-'+ songData[i][0].arr_id +' p.pdf').append('<a href="/download.php?id=' + obj.file_id + '">Lataa PDF</a>').show();		  
+				$('#collapse-'+ songData[i][0].arr_id +' p.pdf').append('<a href="download.php?id=' + obj.file_id + '"><span class="glyphicon glyphicon-download-alt"></span> pdf</a><br />').show();		  
 			}
 		});
 	}
@@ -207,11 +208,11 @@ function populateSongs(songData) {
 	if (file.length > 0) { 
 		file.forEach(function(obj) {
 			if(obj.description == null && obj.version != null) {
-				$('#collapse-'+ songData[i][0].arr_id +' p.sib').append('<a href="/download.php?id=' + obj.file_id + '">Lataa Scorch (ver. ' + obj.version + ')</a>').show();
+				$('#collapse-'+ songData[i][0].arr_id +' p.sib').append('<a href="download.php?id=' + obj.file_id + '"><span class="glyphicon glyphicon-download-alt"></span> scorch <span class=\"file_description\">ver. ' + obj.version + '</span></a>').show();
 			} else if (obj.description != null) {
-				$('#collapse-'+ songData[i][0].arr_id +' p.sib').append('<a href="/download.php?id=' + obj.file_id + '">Lataa Scorch (' + obj.description + ')</a>').show();		  
+				$('#collapse-'+ songData[i][0].arr_id +' p.sib').append('<a href="download.php?id=' + obj.file_id + '"><span class="glyphicon glyphicon-download-alt"></span> scorch <span class=\"file_description\">' + obj.description + '</span></a>').show();		  
 			} else {
-				$('#collapse-'+ songData[i][0].arr_id +' p.sib').append('<a href="/download.php?id=' + obj.file_id + '">Lataa Scorch</a>').show();		  
+				$('#collapse-'+ songData[i][0].arr_id +' p.sib').append('<a href="download.php?id=' + obj.file_id + '"><span class="glyphicon glyphicon-download-alt"></span> scorch</a>').show();		  
 			}
 		});
 	}
@@ -220,14 +221,27 @@ function populateSongs(songData) {
 	if (file.length > 0) { 
 		file.forEach(function(obj) {
 			if(obj.description == null && obj.version != null) {
-				$('#collapse-'+ songData[i][0].arr_id +' p.mscz').append('<a href="/download.php?id=' + obj.file_id + '">Lataa Musescore (ver. ' + obj.version + ')</a>').show();
+				$('#collapse-'+ songData[i][0].arr_id +' p.mscz').append('<a href="download.php?id=' + obj.file_id + '"><span class="glyphicon glyphicon-download-alt"></span> musescore <span class=\"file_description\">ver. ' + obj.version + '</span></a>').show();
 			} else if (obj.description != null) {
-				$('#collapse-'+ songData[i][0].arr_id +' p.mscz').append('<a href="/download.php?id=' + obj.file_id + '">Lataa Musescore (' + obj.description + ')</a>').show();		  
+				$('#collapse-'+ songData[i][0].arr_id +' p.mscz').append('<a href="download.php?id=' + obj.file_id + '"><span class="glyphicon glyphicon-download-alt"></span> musescore <span class=\"file_description\">' + obj.description + '</span></a>').show();		  
 			} else {
-				$('#collapse-'+ songData[i][0].arr_id +' p.mscz').append('<a href="/download.php?id=' + obj.file_id + '">Lataa Musescore</a>').show();		  
+				$('#collapse-'+ songData[i][0].arr_id +' p.mscz').append('<a href="download.php?id=' + obj.file_id + '"><span class="glyphicon glyphicon-download-alt"></span> musescore</a>').show();		  
 			}
 		});
 	}
 
+	file = songData[i].filter(arrangement => (arrangement.file_extension === "mp3"));
+	if (file.length > 0) { 
+		file.forEach(function(obj) {
+			if(obj.description == null && obj.version != null) {
+				$('#collapse-'+ songData[i][0].arr_id +' p.mp3').append('<a href="download.php?id=' + obj.file_id + '"><span class="glyphicon glyphicon-download-alt"></span> mp3 <span class=\"file_description\">ver. ' + obj.version + '</span></a>').show();
+			} else if (obj.description != null) {
+				$('#collapse-'+ songData[i][0].arr_id +' p.mp3').append('<a href="download.php?id=' + obj.file_id + '"><span class="glyphicon glyphicon-download-alt"></span> mp3 <span class=\"file_description\">' + obj.description + '</span></a>').show();		  
+			} else {
+				$('#collapse-'+ songData[i][0].arr_id +' p.mp3').append('<a href="download.php?id=' + obj.file_id + '"><span class="glyphicon glyphicon-download-alt"></span> mp3</a>').show();		  
+			}
+		});
+	}
+	
   }
 }

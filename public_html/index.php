@@ -13,7 +13,29 @@
   require_once(TEMPLATES_PATH . "/header.php");
 
 ?>
+<script>
+$(document).ready(function() {
 
+    $('#search-btn').click(function() {
+        submitSearch();
+        $('#search-text').val('');
+    });
+
+    $('#search-text').on('keyup', function(e) {
+        if (e.which === 13) {
+            submitSearch();
+            $('#search-text').val('');
+        } else {
+            submitSearch();
+        }
+    });
+	
+	submitSearch();
+
+});
+</script>
+</head>
+<body>
     <nav class="navbar navbar-inverse">
       <div class="container-fluid">
       <div class="navbar-header">
@@ -22,7 +44,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#"><img src="http://kyl.fi/wordpress/wp-content/themes/kyl/img/kyl-header-logo.png" class="img-responsive img-navbar-brand" alt="KYL logo"></a>
+        <a class="navbar-brand" href="#"><img src="img/kyl-header-logo.png" class="img-responsive img-navbar-brand" alt="KYL logo"></a>
       </div>
       <div class="collapse navbar-collapse" id="myNavbar">
         <ul class="nav navbar-nav">
@@ -62,9 +84,6 @@
             <div class="col-lg-3 col-sm-1"></div>
         </div>
     </div>
-    <script>
-      submitSearch();
-    </script>
 
 <?php
   // load footer
