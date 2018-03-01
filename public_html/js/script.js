@@ -22,13 +22,42 @@ function submitSearch() {
         type: "GET",
         url: 'get.php',
         data: {
+			type: "song",
             title: $('#search-text').val()
         },
         success: function(data) {
-///          console.log(JSON.parse(data));
           populateSongs(JSON.parse(data));
         }
     });
+}
+
+function getConcerts() {
+	$.ajax({
+        type: "GET",
+        url: 'get.php',
+        data: {
+			type: "concert"
+        },
+        success: function(data) {
+		console.log(JSON.parse(data))
+        populateConcerts(JSON.parse(data));
+        }
+    });
+}
+
+function populateConcerts(concertData) {
+	$('#concerts').empty();
+	for (i = 0; i < concertData.length; i++) {
+		$('#concerts').append('\
+		<div class="jumbotron" data-id="' + concertData[i].id + '">\
+			<h2>' + concertData[i].name + '</h2>\
+				<p>\
+				Paikka: ' + concertData[i].location + '<br />\
+				' + concertData[i].start_time + ' - ' + concertData[i].end_time + '\
+				</p>\
+		</div>'
+		);
+	}
 }
 
 function populateSongs(songData) {

@@ -15,6 +15,13 @@
   $conn = openConnection($config);
 
 ?>
+<script>
+$(document).ready(function() {
+
+	getConcerts();
+
+});
+</script>
 </head>
 <body>
 
@@ -45,27 +52,14 @@
             <div class="col-lg-6 col-sm-10">
 
                 <div id="concerts">
-                  <?php
 
-                    fetchConcerts($conn);
-
-                  ?>
                 </div>
 
             </div>
             <div class="col-lg-3 col-sm-1"></div>
         </div>
-        <br>
-        <div class="row">
-            <div class="col-lg-3 col-sm-1"></div>
-            <div class="col-lg-6 col-sm-10">
-              <div class="panel-group" id="accordion">
-              </div>
-            </div>
-            <div class="col-lg-3 col-sm-1"></div>
-        </div>
     </div>
-
+	
 <?php
 
   // load footer

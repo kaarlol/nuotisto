@@ -52,6 +52,37 @@ function get_result( $Statement ) {
     return $RESULT;
 }
 
+// Fetching all concerts into an array
+function fetchConcert($conn) {
+	$json = array();
+	$query="
+	SELECT id, name, location, DATE_FORMAT(start_time, '%e.%c. klo %H:%i') start_time, DATE_FORMAT(end_time, '%H:%i') end_time 
+	FROM kml_concert
+	";
+	$sql_stmt = $conn->stmt_init();
+	if(! $sql_stmt->prepare($query))
+	{
+		echo "Failed to prepare statement<br />";
+	}
+	else {
+		$sql_stmt->execute();
+		$result = get_result($sql_stmt);
+
+		while ($row = array_shift($result)) {
+
+			$bus = array(
+			  'id' => (int) $row["id"],
+              'name' 	=> (string) $row["name"],
+              'location' 	=> (string) $row["location"],
+			  'start_time' => (string) $row["start_time"],
+			  'end_time' => (string) $row["end_time"],
+            );
+			
+            array_push($json, $bus);
+		}	
+	}
+	echo raw_json_encode($json);
+}	
 
 
 /// fetchSong versio 5 -- searches also author names (in addition to song names)
