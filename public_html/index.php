@@ -57,7 +57,7 @@ $(document).ready(function() {
             <div class="col-lg-6 col-sm-10">
 
                 <div class="input-group">
-                  <input type="text" class="form-control" placeholder="Hae" id="search-text">
+                  <input type="text" class="form-control" placeholder="Hae kappaletta tai tekijää" id="search-text">
                   <div class="input-group-btn">
                     <button class="btn btn-default" id="search-btn">
                       <i class="glyphicon glyphicon-search"></i>

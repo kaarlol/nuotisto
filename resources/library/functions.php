@@ -92,7 +92,7 @@ function fetchSong($conn, $name) {
     $json = array();
 		
 	$query="
-	SELECT name, arrangement_id as arr_id, description, starting_lyrics, orchestration, arrangement_date
+	SELECT name, arrangement_id, description, starting_lyrics, orchestration, arrangement_date
 	FROM 
 	(SELECT arrangement_id FROM (SELECT id FROM kml_person WHERE name LIKE ?) AS a INNER JOIN kml_arrangement_author AS b ON a.id = b.person_id
 	 UNION
@@ -121,7 +121,7 @@ function fetchSong($conn, $name) {
 			$json_song = array();
 			
 			$bus = array(
-				'arr_id' 			=> (string) $row["arr_id"],
+				'arrangement_id' 			=> (string) $row["arrangement_id"],
 				'name' 				=> (string) $row["name"],
 				'description'		=> (string) $row["description"], 
 				'starting_lyrics'	=> (string) $row["starting_lyrics"],
@@ -130,14 +130,14 @@ function fetchSong($conn, $name) {
 			);
 			array_push($json_song, $bus);
 			
-			// We'll use this arr_id to look for all the other required data
-			$arr_id = $row["arr_id"];
+			// We'll use this arrangement_id to look for all the other required data
+			$arrangement_id = $row["arrangement_id"];
 			
 			
 			// Second, we'll find person authors 
 			// N.B. THESE FOLLOW-UP QUERIES NEED NOT BE PREPARED STATEMENTS AS NO (DIRECT) WEB USER INPUT IS POSSIBLE HERE
 			
-			$sql = "SELECT kml_person.id as person_id , name , contribution_type , author_order,birth_date,death_date FROM (SELECT * FROM kml_arrangement_author WHERE arrangement_id = " . $arr_id . ") AS arrauth INNER JOIN kml_person ON arrauth.person_id = kml_person.id";
+			$sql = "SELECT kml_person.id as person_id , name , contribution_type , author_order,birth_date,death_date FROM (SELECT * FROM kml_arrangement_author WHERE arrangement_id = " . $arrangement_id . ") AS arrauth INNER JOIN kml_person ON arrauth.person_id = kml_person.id";
 			$result2 = $conn->query($sql);
 			
 			if ($result2->num_rows > 0) {
@@ -157,7 +157,7 @@ function fetchSong($conn, $name) {
 			$result2->free();
 			
 			// Third, we'll find alias authors
-		    $sql = "SELECT kml_alias.person_id as person_id , kml_alias.id as alias_id , alias as name , contribution_type , author_order FROM (SELECT * FROM kml_arrangement_author WHERE arrangement_id = " . $arr_id . ") AS arrauth INNER JOIN kml_alias ON arrauth.alias_id = kml_alias.id";
+		    $sql = "SELECT kml_alias.person_id as person_id , kml_alias.id as alias_id , alias as name , contribution_type , author_order FROM (SELECT * FROM kml_arrangement_author WHERE arrangement_id = " . $arrangement_id . ") AS arrauth INNER JOIN kml_alias ON arrauth.alias_id = kml_alias.id";
 			$result2 = $conn->query($sql);
 
 			if ($result2->num_rows > 0) {
@@ -176,7 +176,7 @@ function fetchSong($conn, $name) {
 			$result2->free();
 			
 			// Last, we'll find any files attached to the arrangement
-			$sql = "SELECT A.id as file_id, B.file_extension, A.version , A.description FROM (SELECT * FROM kml_file WHERE arrangement_id =" . $arr_id . ") AS A INNER JOIN kml_filetype AS B ON A.filetype_id = B.id";
+			$sql = "SELECT A.id as file_id, B.file_extension, A.version , A.description FROM (SELECT * FROM kml_file WHERE arrangement_id =" . $arrangement_id . ") AS A INNER JOIN kml_filetype AS B ON A.filetype_id = B.id";
 			$result2 = $conn->query($sql);
 
 			if ($result2->num_rows > 0) {
@@ -255,13 +255,6 @@ function downloadFile($conn,$file_id)
 		}
 	}
 }
-
-
-/// THIS FUNCTION IS CALLED FROM "KONSERTIT" TAB
-function fetchConcerts($conn) {
-	// Do something smart here...
-}
-
 
 
 // get data for a concert listing
