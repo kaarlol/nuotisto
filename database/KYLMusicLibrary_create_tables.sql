@@ -42,6 +42,8 @@ CREATE TABLE kml_arrangement (
 	id INT NOT NULL AUTO_INCREMENT, 
 	song_id INT NOT NULL,
 	description VARCHAR(255), 
+	starting_lyrics VARCHAR(255),
+	orchestration VARCHAR(255),
 	arrangement_date DATE, 
 	added TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
 	PRIMARY KEY (id),
@@ -74,6 +76,7 @@ CREATE TABLE kml_concert_arrangement (
 	arrangement_id INT NOT NULL,
 	concert_id INT NOT NULL,
 	arrangement_order INT,
+	line_text VARCHAR(64),
 	PRIMARY KEY (id),
 	FOREIGN KEY (arrangement_id) REFERENCES kml_arrangement(id) ON DELETE CASCADE,
 	FOREIGN KEY (concert_id) REFERENCES kml_concert(id) ON DELETE CASCADE) 

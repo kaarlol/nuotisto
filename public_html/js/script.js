@@ -1,23 +1,4 @@
-$(document).ready(function() {
-
-    $('#search-btn').click(function() {
-        submitSearch();
-        $('#search-text').val('');
-    });
-
-    $('#search-text').on('keyup', function(e) {
-        if (e.which === 13) {
-            submitSearch();
-            $('#search-text').val('');
-        } else {
-            submitSearch();
-        }
-    });
-
-});
-
-
-function submitSearch() {
+function submitSearch(clearText = false) {
     $.ajax({
         type: "GET",
         url: 'get.php',
@@ -26,7 +7,10 @@ function submitSearch() {
             title: $('#search-text').val()
         },
         success: function(data) {
-          populateSongs(JSON.parse(data));
+			populateSongs(JSON.parse(data));
+			if(clearText) {
+				$('#search-text').val('');
+			}
         }
     });
 }
@@ -39,8 +23,8 @@ function getConcerts() {
 			type: "concert"
         },
         success: function(data) {
-		console.log(JSON.parse(data))
-        populateConcerts(JSON.parse(data));
+			console.log(JSON.parse(data))
+			populateConcerts(JSON.parse(data));
         }
     });
 }
@@ -77,6 +61,9 @@ function populateSongs(songData) {
           <p class="songwriter" style="display: none;">Lauluntekijä: </p>\
           <p class="lyricist" style="display: none;">Sanoittaja: </p>\
           <p class="arranger" style="display: none;">Sovittaja: </p>\
+          <p class="starting_lyrics" style="display: none;">Alkusanat: </p>\
+          <p class="orchestration" style="display: none;">Orkestraatio: </p>\
+          <p class="description" style="display: none;">Sovitus: </p>\
           <p class="pdf" style="display: none;"></p>\
           <p class="sib" style="display: none;"></p>\
           <p class="mscz" style="display: none;"></p>\
@@ -86,6 +73,24 @@ function populateSongs(songData) {
     </div>\
     ');
 
+	/// If only one song is fetched, auto-open the single panel by adding class "in"
+	if (songData.length == 1) {
+		$("#collapse-"+ songData[i][0].arr_id).addClass("in");
+	}
+	
+	/// show arrangement description, if any
+	if (songData[i][0].description != "") {
+		$('#collapse-'+ songData[i][0].arr_id +' p.description').append(songData[i][0].description).show();
+	}
+	/// show starting lyrics, if any
+	if (songData[i][0].starting_lyrics != null) {
+		$('#collapse-'+ songData[i][0].arr_id +' p.starting_lyrics').append("<i>"+songData[i][0].starting_lyrics+"</i>").show();
+	}
+	/// show orchestration, if any
+	if (songData[i][0].orchestration != null) {
+		$('#collapse-'+ songData[i][0].arr_id +' p.orchestration').append(songData[i][0].orchestration).show();
+	}
+	
 	var authors = [];
 	
 	authors = songData[i].filter(arrangement => (arrangement.contribution_type === "songwriter"));
@@ -114,14 +119,14 @@ function populateSongs(songData) {
 			}
 		});
 		
-		/// remove the ", " at the end of the string AND remove all family name markers '¤' from the shown strings (hence '/<string>/g' format
-		a = a.substring(0,a.length - 2).replace(/¤/g,'');
+		/// remove the ", " at the end of the string AND remove all family name markers '*' from the shown strings (hence '/<string>/g' format
+		a = a.substring(0,a.length - 2).replace(/\*/g,'');
 		$('#collapse-'+ songData[i][0].arr_id +' p.songwriter').append(a).show();
 		
 		/// create a family name string for the panel-title to come after the song name
 		var b = ""; 
-		authors.forEach(function(obj) {return b += obj.name.substr(obj.name.indexOf("¤")+1) + "&mdash;";});
-		/// remove the last  m-dash, and add the closing parenthesis 
+		authors.forEach(function(obj) {return b += obj.name.substr(obj.name.indexOf("*")+1) + "&mdash;";});
+		/// remove the last m-dash and add the author names to panel header h5-tag
 		b = b.substring(0,b.length - 7);
 		$('#panelHeading-'+ songData[i][0].arr_id +' h5.panel-title').append(b).show();
 	}
@@ -151,12 +156,12 @@ function populateSongs(songData) {
 				return a += "<a href=\#>"+obj.name + "</a> <span class=\"year_range\">(" + birthDate.getFullYear() + "&ndash;" + deathDate.getFullYear() + ")</span>, ";
 			}
 		});
-		a = a.substring(0,a.length - 2).replace(/¤/g,'');
+		a = a.substring(0,a.length - 2).replace(/\*/g,'');
 		$('#collapse-'+ songData[i][0].arr_id +' p.composer').append(a).show();
 
 		/// create a family name string for the panel-title to come after the song name
 		var b = ""; 
-		authors.forEach(function(obj) {return b += obj.name.substr(obj.name.indexOf("¤")+1) + "&mdash;";});
+		authors.forEach(function(obj) {return b += obj.name.substr(obj.name.indexOf("*")+1) + "&mdash;";});
 		/// remove the last  m-dash, and add the closing parenthesis 
 		b = b.substring(0,b.length - 7);
 		$('#panelHeading-'+ songData[i][0].arr_id +' h5.panel-title').append(b).show();
@@ -186,7 +191,7 @@ function populateSongs(songData) {
 				return a += "<a href=\#>"+obj.name + "</a> <span class=\"year_range\">(" + birthDate.getFullYear() + "&ndash;" + deathDate.getFullYear() + ")</span>, ";
 			}
 		});
-		a = a.substring(0,a.length - 2).replace(/¤/g,'');
+		a = a.substring(0,a.length - 2).replace(/\*/g,'');
 		$('#collapse-'+ songData[i][0].arr_id +' p.lyricist').append(a).show();
 	}
 	
@@ -214,7 +219,7 @@ function populateSongs(songData) {
 				return a += "<a href=\#>"+obj.name + "</a> <span class=\"year_range\">(" + birthDate.getFullYear() + "&ndash;" + deathDate.getFullYear() + ")</span>, ";
 			}
 		});
-		a = a.substring(0,a.length - 2).replace(/¤/g,'');
+		a = a.substring(0,a.length - 2).replace(/\*/g,'');
 		$('#collapse-'+ songData[i][0].arr_id +' p.arranger').append(a).show();
 	}
 
@@ -271,6 +276,5 @@ function populateSongs(songData) {
 			}
 		});
 	}
-	
   }
 }

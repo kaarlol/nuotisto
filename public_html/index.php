@@ -15,23 +15,18 @@
 ?>
 <script>
 $(document).ready(function() {
-
-    $('#search-btn').click(function() {
-        submitSearch();
-        $('#search-text').val('');
-    });
-
-    $('#search-text').on('keyup', function(e) {
-        if (e.which === 13) {
-            submitSearch();
-            $('#search-text').val('');
-        } else {
-            submitSearch();
-        }
-    });
-	
-	submitSearch();
-
+	$('#search-btn').click(function() {
+		submitSearch();
+		$('#search-text').val('');
+	});
+	$('#search-text').on('keyup', function(e) {
+		if (e.which === 13) {
+			submitSearch();
+			$('#search-text').val('');
+		} else if (this.value.length >= 3) {
+			submitSearch();
+		}
+	});
 });
 </script>
 </head>
@@ -88,5 +83,4 @@ $(document).ready(function() {
 <?php
   // load footer
   require_once(TEMPLATES_PATH . "/footer.php");
-
 ?>
