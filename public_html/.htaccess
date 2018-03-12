@@ -1,0 +1,6 @@
+<FilesMatch "download.php">
+	AuthName "Member Only"
+	AuthType Basic
+	AuthUserFile /var/www/customers/kylfi/.salasanat_kyl
+	require valid-user
+</FilesMatch>

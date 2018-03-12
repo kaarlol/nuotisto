@@ -1,30 +1,30 @@
 body {
-  font-family: 'Lato', sans-serif;
-  font-weight: 300;
+	font-family: 'Lato', sans-serif;
+	font-weight: 300;
 }
 
 .navbar {
-    border-top: 5px solid #f99a32;
-    border-radius: 0px;
-    color: #fff;
-    min-height: 80px;
+	border-top: 5px solid #f99a32;
+	border-radius: 0px;
+	color: #fff;
+	min-height: 80px;
 }
 
 .navbar-nav>li>a {
-    padding-top: 30px;
-    padding-bottom: 30px;
+	padding-top: 30px;
+	padding-bottom: 30px;
 }
 
 .navbar-inverse {
-    background: rgba(0,0,0,0.9);
+	background: rgba(0,0,0,0.9);
 }
 
 .img-navbar-brand {
-    height: 40px;
+	height: 40px;
 }
 
 .navbar-toggle {
-  margin-top: 15px;
+	margin-top: 15px;
 }
 
 div.jumbotron {
@@ -37,9 +37,9 @@ h2 {
 }
 
 div.jumbotron p {
-    margin-bottom: 15px;
-    font-size: 1.2em;
-    font-weight: 200;
+	margin-bottom: 15px;
+	font-size: 1.2em;
+	font-weight: 200;
 }
 
 .panel-group {
@@ -47,45 +47,86 @@ div.jumbotron p {
 }
 
 h4.panel-title {
-  color: #000;
-  font-weight: 400;
-  font-size: 1.2em;
+	color: #000;
+	font-weight: 400;
+	font-size: 1.2em;
 }
 
+span.panel-title-authors {
+	font-size: 75%;
+	color: darkgray;
+	margin-left: 0.0em;
+}
 h5.panel-title {
-  color: #000;
-  font-weight: 400;
+	color: #000;
+	font-weight: 400;
 }
 
 a:hover, a:focus {
-  text-decoration: none;
+	text-decoration: none;
 }
 
 .panel-body p {
-  font-size: 1.2em;
+	font-size: 1.2em;
 }
 
 div.panel-body p .year_range {
-  font-size: 66%;
-  color: darkgray;
+	font-size: 66%;
+	color: darkgray;
 }
 
 div.panel-body a .file_description {
-  font-size: 75%;
-  color: darkgray;
-  margin-left: 0.5em;
+	font-size: 75%;
+	color: darkgray;
+	margin-left: 0.5em;
 }
 
 div.panel-body p {
-  line-height: 140%;
+	line-height: 140%;
 }
 
+div.panel.special_text_1 {
+	border-radius: 0px;
+	background-color: transparent;
+	border: none;
+	box-shadow: none;
+}
+div.panel.special_text_2 {
+	border-radius: 0px;
+	background-color: transparent;
+	border: none;
+	box-shadow: none;
+}
+div.panel.special_text_3 {
+	border-radius: 0px;
+	background-color: transparent;
+	border: none;
+	box-shadow: none;
+}
 
+div.panel-heading.special_text_1 {
+	padding: 20px 0px 5px 0px;
+}
+div.panel-heading.special_text_2 {
+	padding: 15px 0px 0px 0px;
+}
+div.panel-heading.special_text_2 > h4.panel-title{
+	font-size: 0.9em;
+}
+div.panel-heading.special_text_3 {
+	padding: 0px;
+}
+div.panel-heading.special_text_3 > h4.panel-title{
+	font-size: 0.9em;
+}
+div.panel-heading.jumbotron-panel-heading {
+	background-color: transparent;
+}
 @media (min-width: 768px) {
-  .img-navbar-brand {
-      height: 50px;
-  }
-  div.jumbotron {
-	padding: 30px !important;
-  }
+	img-navbar-brand {
+		height: 50px;
+	}
+	div.jumbotron {
+			padding: 30px !important;
+	}
 }

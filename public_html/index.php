@@ -23,10 +23,13 @@ $(document).ready(function() {
 		if (e.which === 13) {
 			submitSearch();
 			$('#search-text').val('');
+		} else if (e.which === 27) {
+			$('#search-text').val('');
 		} else if (this.value.length >= 3) {
 			submitSearch();
 		}
 	});
+	$('#search-text').focus().select();
 });
 </script>
 </head>

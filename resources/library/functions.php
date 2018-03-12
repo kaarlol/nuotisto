@@ -56,7 +56,7 @@ function get_result( $Statement ) {
 function fetchConcert($conn) {
 	$json = array();
 	$query="
-	SELECT id, name, location, DATE_FORMAT(start_time, '%e.%c. klo %H:%i') start_time, DATE_FORMAT(end_time, '%H:%i') end_time 
+	SELECT id, name, location, DATE_FORMAT(start_time, '%e.%c.%Y klo %H:%i') start_time, DATE_FORMAT(end_time, '%H:%i') end_time 
 	FROM kml_concert
 	";
 	$sql_stmt = $conn->stmt_init();
@@ -137,7 +137,7 @@ function fetchSong($conn, $name) {
 			// Second, we'll find person authors 
 			// N.B. THESE FOLLOW-UP QUERIES NEED NOT BE PREPARED STATEMENTS AS NO (DIRECT) WEB USER INPUT IS POSSIBLE HERE
 			
-			$sql = "SELECT kml_person.id as person_id , name , contribution_type , author_order,birth_date,death_date FROM (SELECT * FROM kml_arrangement_author WHERE arrangement_id = " . $arrangement_id . ") AS arrauth INNER JOIN kml_person ON arrauth.person_id = kml_person.id";
+			$sql = "SELECT kml_person.id as person_id , name , contribution_type , author_order, YEAR(birth_date) as birth_year, YEAR(death_date) as death_year FROM (SELECT * FROM kml_arrangement_author WHERE arrangement_id = " . $arrangement_id . ") AS arrauth INNER JOIN kml_person ON arrauth.person_id = kml_person.id";
 			$result2 = $conn->query($sql);
 			
 			if ($result2->num_rows > 0) {
@@ -148,8 +148,8 @@ function fetchSong($conn, $name) {
 						'name'				=> $row2["name"],
 						'contribution_type'	=> $row2["contribution_type"],
 						'author_order'		=> $row2["author_order"],
-						'birth_date'		=> $row2["birth_date"],
-						'death_date'		=> $row2["death_date"]
+						'birth_year'		=> $row2["birth_year"],
+						'death_year'		=> $row2["death_year"]
 					);
 					array_push($json_song, $bus);
 				}
@@ -157,18 +157,21 @@ function fetchSong($conn, $name) {
 			$result2->free();
 			
 			// Third, we'll find alias authors
-		    $sql = "SELECT kml_alias.person_id as person_id , kml_alias.id as alias_id , alias as name , contribution_type , author_order FROM (SELECT * FROM kml_arrangement_author WHERE arrangement_id = " . $arrangement_id . ") AS arrauth INNER JOIN kml_alias ON arrauth.alias_id = kml_alias.id";
+			// $sql = "SELECT kml_alias.person_id as person_id , kml_alias.id as alias_id , alias as name , contribution_type , author_order FROM (SELECT * FROM kml_arrangement_author WHERE arrangement_id = " . $arrangement_id . ") AS arrauth INNER JOIN kml_alias ON arrauth.alias_id = kml_alias.id";
+			$sql = "SELECT kml_alias.person_id as person_id , kml_alias.id as alias_id , alias as name , contribution_type , author_order , YEAR(birth_date) as birth_year , YEAR(death_date) as death_year FROM (SELECT * FROM kml_arrangement_author WHERE arrangement_id = " . $row["arrangement_id"] . ") AS arrauth INNER JOIN kml_alias ON arrauth.alias_id = kml_alias.id INNER JOIN kml_person ON kml_alias.person_id = kml_person.id";
 			$result2 = $conn->query($sql);
 
 			if ($result2->num_rows > 0) {
 				// go through persons
 				while ($row2 = $result2->fetch_assoc()) {
 					$bus = array(
-					  'person_id' => $row2["person_id"],
-					  'alias_id' => $row2["alias_id"],
-					  'name' => $row2["name"],
-					  'contribution_type' => $row2["contribution_type"],
-					  'author_order' => $row2["author_order"]
+						'person_id'			=> $row2["person_id"],
+						'alias_id'			=> $row2["alias_id"],
+						'name'				=> $row2["name"],
+						'contribution_type'	=> $row2["contribution_type"],
+						'author_order'		=> $row2["author_order"],
+						'birth_year'		=> $row2["birth_year"],
+						'death_year'		=> $row2["death_year"]
 					);
 					array_push($json_song, $bus);
 				}
@@ -234,8 +237,10 @@ function downloadFile($conn,$file_id)
 					header('Content-Disposition: inline; filename="'.basename($filepath).'"');
 					header('Content-Type: application/pdf');
 				} else if ($file_extension == "mp3") {
-					//header('Content-Disposition: inline; filename="'.basename($filepath).'"');
+					header('Content-Disposition: inline; filename="'.basename($filepath).'"');
 					header('Content-Type: audio/mpeg');
+					// Accept-Range: bytes is required for Chrome to allow seeking the audio
+					header('Accept-Ranges: bytes');
 					//header('X-Pad: avoid browser bug');
 				} else {
 					header('Content-Description: File Transfer');
@@ -260,9 +265,9 @@ function downloadFile($conn,$file_id)
 // get data for a concert listing
 function fetchConcertListing($conn, $concert_id) {
 	$json = array();
-		
+	
 	$query="
-	SELECT arrangement_order, arrangement_id, name, line_text 
+	SELECT arrangement_order, arrangement_id, name, line_text, description, starting_lyrics, orchestration 
 	FROM (SELECT arrangement_id, arrangement_order, line_text FROM kml_concert_arrangement WHERE concert_id = ?)AS link 
 	INNER JOIN kml_arrangement AS arr ON link.arrangement_id = arr.id 
 	INNER JOIN kml_song AS song ON song.id = arr.song_id
@@ -283,9 +288,9 @@ function fetchConcertListing($conn, $concert_id) {
 			/// check if special case lines (e..g. INTERMISSION etc.)
 			if ($row["arrangement_id"]<0) {
 				$bus = array(
-				  'arrangement_order'	=> (string) $row["arrangement_order"], 
-				  'arrangement_id' 		=> (string) $row["arrangement_id"],
-				  'line_text'			=> (string) $row["line_text"],
+					'arrangement_order'	=> (string) $row["arrangement_order"], 
+					'arrangement_id' 	=> (string) $row["arrangement_id"],
+					'line_text'			=> (string) $row["line_text"]
 				);
 				// no need for any person records in such cases
 				array_push($json_song, $bus);
@@ -297,6 +302,10 @@ function fetchConcertListing($conn, $concert_id) {
 					'arrangement_id' 	=> (string) $row["arrangement_id"],
 					'name' 				=> (string) $row["name"],
 					'line_text'			=> (string) $row["line_text"],
+					'description'		=> (string) $row["description"],
+					'starting_lyrics'	=> (string) $row["starting_lyrics"],
+					'orchestration'		=> (string) $row["orchestration"],
+					'orchestration'		=> (string) $row["orchestration"],
 				);
 			}
 			array_push($json_song, $bus);
@@ -304,7 +313,7 @@ function fetchConcertListing($conn, $concert_id) {
 			// Second, we'll find person authors 
 			// N.B. THESE FOLLOW-UP QUERIES NEED NOT BE PREPARED STATEMENTS AS NO (DIRECT) WEB USER INPUT IS POSSIBLE HERE
 			
-			$sql = "SELECT kml_person.id as person_id , name , contribution_type , author_order,birth_date,death_date FROM (SELECT * FROM kml_arrangement_author WHERE arrangement_id = " . $row["arrangement_id"] . ") AS arrauth INNER JOIN kml_person ON arrauth.person_id = kml_person.id";
+			$sql = "SELECT kml_person.id as person_id , name , contribution_type , author_order, YEAR(birth_date) as birth_year, YEAR(death_date) as death_year FROM (SELECT * FROM kml_arrangement_author WHERE arrangement_id = " . $row["arrangement_id"] . ") AS arrauth INNER JOIN kml_person ON arrauth.person_id = kml_person.id";
 			$result2 = $conn->query($sql);
 			
 			if ($result2->num_rows > 0) {
@@ -317,8 +326,8 @@ function fetchConcertListing($conn, $concert_id) {
 						'name'				=> $row2["name"],
 						'contribution_type'	=> $row2["contribution_type"],
 						'author_order'		=> $row2["author_order"],
-						'birth_date'		=> $row2["birth_date"],
-						'death_date'		=> $row2["death_date"]
+						'birth_year'		=> $row2["birth_year"],
+						'death_year'		=> $row2["death_year"]
 					);
 					array_push($json_song, $bus);
 				}
@@ -327,7 +336,8 @@ function fetchConcertListing($conn, $concert_id) {
 			$result2->free();
 			
 			// Third, we'll find alias authors
-		    $sql = "SELECT kml_alias.person_id as person_id , kml_alias.id as alias_id , alias as name , contribution_type , author_order FROM (SELECT * FROM kml_arrangement_author WHERE arrangement_id = " . $row["arrangement_id"] . ") AS arrauth INNER JOIN kml_alias ON arrauth.alias_id = kml_alias.id";
+			// $sql = "SELECT kml_alias.person_id as person_id , kml_alias.id as alias_id , alias as name , contribution_type , author_order FROM (SELECT * FROM kml_arrangement_author WHERE arrangement_id = " . $row["arrangement_id"] . ") AS arrauth INNER JOIN kml_alias ON arrauth.alias_id = kml_alias.id";
+			$sql = "SELECT kml_alias.person_id as person_id , kml_alias.id as alias_id , alias as name , contribution_type , author_order , YEAR(birth_date) as birth_year , YEAR(death_date) as death_year FROM (SELECT * FROM kml_arrangement_author WHERE arrangement_id = " . $row["arrangement_id"] . ") AS arrauth INNER JOIN kml_alias ON arrauth.alias_id = kml_alias.id INNER JOIN kml_person ON kml_alias.person_id = kml_person.id";
 			$result2 = $conn->query($sql);
 
 			if ($result2->num_rows > 0) {
@@ -341,7 +351,9 @@ function fetchConcertListing($conn, $concert_id) {
 						'alias_id'			=> $row2["alias_id"],
 						'name'				=> $row2["name"],
 						'contribution_type'	=> $row2["contribution_type"],
-						'author_order'		=> $row2["author_order"]
+						'author_order'		=> $row2["author_order"],
+						'birth_year'		=> $row2["birth_year"],
+						'death_year'		=> $row2["death_year"]
 					);
 					array_push($json_song, $bus);
 				}

@@ -126,7 +126,7 @@ CREATE TABLE kml_arrangement_author (
 	person_id INT,
 	alias_id INT,
 	author_order INT,
-	contribution_type ENUM('songwriter','composer','lyricist','translation','finnish translation','swedish translation','english translation','latin translation','arranger','version','TTBB version','SATB version'),
+	contribution_type ENUM('songwriter','composer','lyricist','adapted','translation','finnish translation','swedish translation','english translation','latin translation','estonian translation','arranger','version','TTBB version','SATB version'),
 	PRIMARY KEY (id),
 	FOREIGN KEY (arrangement_id) REFERENCES kml_arrangement(id) ON DELETE CASCADE,
 	FOREIGN KEY (person_id) REFERENCES kml_person(id) ON DELETE CASCADE,
