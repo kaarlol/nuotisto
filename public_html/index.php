@@ -48,7 +48,6 @@ $(document).ready(function() {
         <ul class="nav navbar-nav">
           <li class="active"><a href="index.php">Nuotit</a></li>
           <li><a href="concerts.php">Keikat</a></li>
-          <li><a href="#">Listat</a></li>
         </ul>
       </div>
       </div>

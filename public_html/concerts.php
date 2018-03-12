@@ -40,7 +40,6 @@ $(document).ready(function() {
         <ul class="nav navbar-nav">
           <li><a href="index.php">Nuotit</a></li>
           <li class="active"><a href="concerts.php">Keikat</a></li>
-          <li><a href="#">Listat</a></li>
         </ul>
       </div>
       </div>
@@ -59,7 +58,7 @@ $(document).ready(function() {
             <div class="col-lg-3 col-sm-1"></div>
         </div>
     </div>
-	
+
 <?php
 
   // load footer
